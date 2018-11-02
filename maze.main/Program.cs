@@ -10,6 +10,7 @@ namespace MazeBuilderGame
             string input = "";
             int x = 5;
             int y = 5;
+            bool showSolution = true;
             do
             {
                 Console.Clear();
@@ -17,21 +18,26 @@ namespace MazeBuilderGame
                 {
                     try
                     {
-                        x = int.Parse(input.Split(",")[0]);
-                        y = int.Parse(input.Split(",")[1]);
+                        string[] splitedInput = input.Split(",");
+                        x = int.Parse(splitedInput[0]);
+                        y = int.Parse(splitedInput[1]);
+
+                        if (splitedInput.Length > 2)
+                            showSolution = bool.Parse(splitedInput[2]);
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine("Entrada inválida. Use Valor,Valor. Ex: 10,10");
+                        Console.WriteLine("Entrada inválida. Use Valor,Valor[,MostrarSolucao]. Ex: 10,10 ou 10,10,true");
                         Console.WriteLine();
                     }
                 }
 
                 MazeSlot[,] maze = BuildMaze(x, y);
-                // SolveMaze(maze);
+                if (showSolution)
+                    SolveMaze(maze);
 
                 MazeConsoleDrawer.DrawMaze(maze);
-                Console.Write("Gerar outro labirinto [{0},{1}] ('q' para sair): ", x, y);
+                Console.Write("Gerar outro labirinto [{0},{1},{2}] ('q' para sair): ", x, y, showSolution);
                 input = Console.ReadLine();
             }
             while(input != "q");
