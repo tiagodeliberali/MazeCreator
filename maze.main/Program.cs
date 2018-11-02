@@ -6,37 +6,43 @@ namespace MazeBuilderGame
     {
         static void Main(string[] args)
         {
-            MazeBuilder builder = new MazeBuilder(4, 4);
-            builder.BuildMaze(builder.maze[0, 0]);
+            MazeBuilder builder = new MazeBuilder(10, 10);
+            builder.BuildMaze(builder.Maze[0, 0]);
 
-            for (int x = 0; x < builder.maze.GetLength(0); x++)
+            for (int y = builder.Maze.GetLength(1) - 1; y >= 0; y--)
             {
-                for (int y = 0; y < builder.maze.GetLength(1); y++)
+                for (int x = 0; x < builder.Maze.GetLength(0); x++) 
                 {
-                    if (!builder.maze[x, y].DestroyedWalls.Contains(WallPosition.Up))
-                        Console.Write("___");
+                    if (!builder.Maze[x, y].DestroyedWalls.Contains(WallPosition.Up))
+                        Console.Write("╔═══╗");
+                    else
+                        Console.Write("╔   ╗");
                 }
                 Console.WriteLine();
-                for (int y = 0; y < builder.maze.GetLength(1); y++)
+                for (int x = 0; x < builder.Maze.GetLength(0); x++)
                 {
-                    if (!builder.maze[x, y].DestroyedWalls.Contains(WallPosition.Left))
-                        Console.Write("| ");
+                    if (!builder.Maze[x, y].DestroyedWalls.Contains(WallPosition.Left))
+                        Console.Write("║   ");
                     else
-                        Console.Write("  ");
+                        Console.Write("    ");
 
-                    if (!builder.maze[x, y].DestroyedWalls.Contains(WallPosition.Rigth))
-                        Console.Write("|");
+                    if (!builder.Maze[x, y].DestroyedWalls.Contains(WallPosition.Rigth))
+                        Console.Write("║");
                     else
                         Console.Write(" ");
                 }
                 Console.WriteLine();
-                for (int y = 0; y < builder.maze.GetLength(1); y++)
+                for (int x = 0; x < builder.Maze.GetLength(0); x++)
                 {
-                    if (!builder.maze[x, y].DestroyedWalls.Contains(WallPosition.Down))
-                        Console.Write("___");
+                    if (!builder.Maze[x, y].DestroyedWalls.Contains(WallPosition.Down))
+                        Console.Write("╚═══╝");
+                    else
+                        Console.Write("╚   ╝");
                 }
                 Console.WriteLine();
             }
+
+            Console.ReadLine();
         }
     }
 }

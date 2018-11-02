@@ -5,23 +5,23 @@ namespace MazeBuilderGame
 {
     public class MazeBuilder
     {
-        public MazeSlot[,] maze { get; }
+        public MazeSlot[,] Maze { get; }
         Stack<MazeSlot> slotStack = new Stack<MazeSlot>();
         Random random = new Random();
 
         public MazeBuilder(int x, int y)
         {
             if (x <= 1 || y <= 1) throw new ArgumentOutOfRangeException();
-            maze = new MazeSlot[x, y];
+            Maze = new MazeSlot[x, y];
             InitializeMaze();
         }
 
         void InitializeMaze()
         {
-            for (int x = 0; x < maze.GetLength(0); x++)
-                for (int y = 0; y < maze.GetLength(1); y++)
+            for (int x = 0; x < Maze.GetLength(0); x++)
+                for (int y = 0; y < Maze.GetLength(1); y++)
                 {
-                    maze[x, y] = new MazeSlot(x, y);
+                    Maze[x, y] = new MazeSlot(x, y);
                 }
         }
 
@@ -38,7 +38,7 @@ namespace MazeBuilderGame
             else
             {
                 slotStack.Push(slot);
-                int nextPosition = random.Next(neighbor.Count - 1);
+                int nextPosition = random.Next(neighbor.Count);
 
                 MazeSlot next = neighbor[nextPosition];
                 slot.DestroyWall(next);
@@ -52,10 +52,10 @@ namespace MazeBuilderGame
         {
             List<MazeSlot> result = new List<MazeSlot>();
 
-            if (slot.X - 1 >= 0 && !maze[slot.X - 1, slot.Y].Visited)  result.Add(maze[slot.X - 1, slot.Y]);
-            if (slot.X + 1 < maze.GetLength(0) && !maze[slot.X + 1, slot.Y].Visited)  result.Add(maze[slot.X + 1, slot.Y]);
-            if (slot.Y - 1 >= 0 && !maze[slot.X, slot.Y - 1].Visited)  result.Add(maze[slot.X, slot.Y - 1]);
-            if (slot.Y + 1 < maze.GetLength(1) && !maze[slot.X, slot.Y + 1].Visited)  result.Add(maze[slot.X, slot.Y + 1]);
+            if (slot.X - 1 >= 0 && !Maze[slot.X - 1, slot.Y].Visited)  result.Add(Maze[slot.X - 1, slot.Y]);
+            if (slot.X + 1 < Maze.GetLength(0) && !Maze[slot.X + 1, slot.Y].Visited)  result.Add(Maze[slot.X + 1, slot.Y]);
+            if (slot.Y - 1 >= 0 && !Maze[slot.X, slot.Y - 1].Visited)  result.Add(Maze[slot.X, slot.Y - 1]);
+            if (slot.Y + 1 < Maze.GetLength(1) && !Maze[slot.X, slot.Y + 1].Visited)  result.Add(Maze[slot.X, slot.Y + 1]);
 
             return result;
         }
