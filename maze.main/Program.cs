@@ -31,7 +31,7 @@ namespace MazeBuilderGame
                 // SolveMaze(maze);
 
                 MazeConsoleDrawer.DrawMaze(maze);
-                Console.Write("Gerar outro labirinto [{0},{0}] ('q' para sair): ", x, y);
+                Console.Write("Gerar outro labirinto [{0},{1}] ('q' para sair): ", x, y);
                 input = Console.ReadLine();
             }
             while(input != "q");
