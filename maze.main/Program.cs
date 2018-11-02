@@ -7,16 +7,34 @@ namespace MazeBuilderGame
     {
         static void Main(string[] args)
         {
+            string input = "";
+            int x = 5;
+            int y = 5;
             do
             {
                 Console.Clear();
+                if (!string.IsNullOrWhiteSpace(input))
+                {
+                    try
+                    {
+                        x = int.Parse(input.Split(",")[0]);
+                        y = int.Parse(input.Split(",")[1]);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Entrada inválida. Use Valor,Valor. Ex: 10,10");
+                        Console.WriteLine();
+                    }
+                }
 
-                MazeSlot[,] maze = BuildMaze(30, 20);
-                SolveMaze(maze);
+                MazeSlot[,] maze = BuildMaze(x, y);
+                // SolveMaze(maze);
 
                 MazeConsoleDrawer.DrawMaze(maze);
+                Console.Write("Gerar outro labirinto [{0},{0}] ('q' para sair): ", x, y);
+                input = Console.ReadLine();
             }
-            while(Console.ReadLine() != "q");
+            while(input != "q");
         }
 
         private static MazeSlot[,] BuildMaze(int x, int y)
