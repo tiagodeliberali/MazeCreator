@@ -10,11 +10,14 @@ namespace MazeBuilderGame
         private MazeSlot end;
         Stack<MazeSlot> slotStack = new Stack<MazeSlot>();
 
-        public Stack<MazeSlot> Solve(MazeSlot[,] maze, MazeSlot start, MazeSlot end)
+        public MazeSolver(MazeSlot[,] maze)
         {
             this.maze = maze;
-            this.end = end;
+        }
 
+        public Stack<MazeSlot> Solve(MazeSlot start, MazeSlot end)
+        {
+            this.end = end;
             return Move(start);
         }
 
@@ -44,21 +47,21 @@ namespace MazeBuilderGame
 
                 if (moves.Count == 0)
                 {
-                    if (slotStack.Count == 0) throw new Exception("Could not find a solution!");
-
-                    moves = NextMoves(slotStack.Pop());
-                    while (moves.Count == 0)
+                    slot.VisitedBySolver = true;
+                    do
                     {
                         if (slotStack.Count == 0) throw new Exception("Could not find a solution!");
-                        moves = NextMoves(slotStack.Pop());
+                        slot = slotStack.Pop();
+                        moves = NextMoves(slot);
                     }
+                    while (moves.Count == 0);
                 }
             }
 
             return slotStack;
         }
 
-        private List<MazeSlot> NextMoves(MazeSlot slot)
+        public List<MazeSlot> NextMoves(MazeSlot slot)
         {
             List<MazeSlot> result = new List<MazeSlot>(4);
 

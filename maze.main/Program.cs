@@ -5,99 +5,44 @@ namespace MazeBuilderGame
 {
     class Program
     {
-        private static string[] TOP_CORNERS = new string[] { "╔", "╗", "╝", "╚" };
-
-        private static string[] BOTTON_CORNERS = new string[] { "╚", "╝", "╗", "╔" };
-
         static void Main(string[] args)
         {
-            MazeSlot[,] maze = BuildMaze();
-            // SolveMaze(maze);
-
-            for (int y = maze.GetLength(1) - 1; y >= 0; y--)
+            do
             {
-                for (int x = 0; x < maze.GetLength(0); x++)
-                {
-                    DrawHorizontal(maze, y, x, WallPosition.Up);
-                }
-                Console.WriteLine();
+                Console.Clear();
 
-                for (int x = 0; x < maze.GetLength(0); x++)
-                {
-                    DrawVertical(maze, y, x);
-                }
-                Console.WriteLine();
+                MazeSlot[,] maze = BuildMaze(30, 20);
+                SolveMaze(maze);
 
-                for (int x = 0; x < maze.GetLength(0); x++)
-                {
-                    DrawHorizontal(maze, y, x, WallPosition.Down);
-                }
-                Console.WriteLine();
+                MazeConsoleDrawer.DrawMaze(maze);
             }
-
-            Console.ReadLine();
+            while(Console.ReadLine() != "q");
         }
 
-        private static void DrawVertical(MazeSlot[,] maze, int y, int x)
+        private static MazeSlot[,] BuildMaze(int x, int y)
         {
-            if (!maze[x, y].DestroyedWalls.Contains(WallPosition.Left))
-                Console.Write("║");
-            else
-                Console.Write(" ");
-
-            if (maze[x, y].SolutionPath)
-                Console.Write(" X ");
-            else
-                Console.Write("   ");
-
-            if (!maze[x, y].DestroyedWalls.Contains(WallPosition.Rigth))
-                Console.Write("║");
-            else
-                Console.Write(" ");
-        }
-
-        private static void DrawHorizontal(MazeSlot[,] maze, int y, int x, WallPosition wall)
-        {
-            string[] corners = wall == WallPosition.Up ? TOP_CORNERS : BOTTON_CORNERS;
-
-            if (!maze[x, y].DestroyedWalls.Contains(wall))
-            {
-                if (!maze[x, y].DestroyedWalls.Contains(WallPosition.Left)) Console.Write(corners[0]);
-                else Console.Write("═");
-
-                Console.Write("═══");
-
-                if (!maze[x, y].DestroyedWalls.Contains(WallPosition.Rigth)) Console.Write(corners[1]);
-                else Console.Write("═");
-            }
-            else
-            {
-                if (!maze[x, y].DestroyedWalls.Contains(WallPosition.Left)) Console.Write("║");
-                else Console.Write(corners[2]);
-
-                Console.Write("   ");
-
-                if (!maze[x, y].DestroyedWalls.Contains(WallPosition.Rigth)) Console.Write("║");
-                else Console.Write(corners[3]);
-            }
-        }
-
-        private static MazeSlot[,] BuildMaze()
-        {
-            MazeBuilder builder = new MazeBuilder(30, 20);
+            MazeBuilder builder = new MazeBuilder(x, y);
             builder.BuildMaze(builder.Maze[0, 0]);
             return builder.Maze;
         }
 
         private static void SolveMaze(MazeSlot[,] maze)
         {
-            MazeSolver solver = new MazeSolver();
-            Stack<MazeSlot> solution = solver.Solve(maze, maze[0, 0], maze[maze.GetLength(0) - 1, maze.GetLength(1) - 1]);
-
-            while (solution.Count > 0)
+            try
             {
-                MazeSlot slot = solution.Pop();
-                maze[slot.X, slot.Y].SolutionPath = true;
+                MazeSolver solver = new MazeSolver(maze);
+                Stack<MazeSlot> solution = solver.Solve(maze[0, 0], maze[maze.GetLength(0) - 1, maze.GetLength(1) - 1]);
+
+                while (solution.Count > 0)
+                {
+                    MazeSlot slot = solution.Pop();
+                    maze[slot.X, slot.Y].SolutionPath = true;
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Não achei uma solução para esse labirinto");
             }
         }
     }

@@ -16,7 +16,7 @@ namespace MazeBuilderGame
             InitializeMaze();
         }
 
-        void InitializeMaze()
+        private void InitializeMaze()
         {
             for (int x = 0; x < Maze.GetLength(0); x++)
                 for (int y = 0; y < Maze.GetLength(1); y++)
