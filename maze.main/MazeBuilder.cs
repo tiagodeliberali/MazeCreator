@@ -27,7 +27,7 @@ namespace MazeBuilderGame
 
         public void BuildMaze(MazeSlot slot)
         {
-            slot.Visited = true;
+            slot.VisitedByBuilder = true;
             List<MazeSlot> neighbor = GetNeighbor(slot);
 
             if (neighbor.Count == 0)
@@ -50,12 +50,12 @@ namespace MazeBuilderGame
 
         public List<MazeSlot> GetNeighbor(MazeSlot slot)
         {
-            List<MazeSlot> result = new List<MazeSlot>();
+            List<MazeSlot> result = new List<MazeSlot>(4);
 
-            if (slot.X - 1 >= 0 && !Maze[slot.X - 1, slot.Y].Visited)  result.Add(Maze[slot.X - 1, slot.Y]);
-            if (slot.X + 1 < Maze.GetLength(0) && !Maze[slot.X + 1, slot.Y].Visited)  result.Add(Maze[slot.X + 1, slot.Y]);
-            if (slot.Y - 1 >= 0 && !Maze[slot.X, slot.Y - 1].Visited)  result.Add(Maze[slot.X, slot.Y - 1]);
-            if (slot.Y + 1 < Maze.GetLength(1) && !Maze[slot.X, slot.Y + 1].Visited)  result.Add(Maze[slot.X, slot.Y + 1]);
+            if (slot.X - 1 >= 0 && !Maze[slot.X - 1, slot.Y].VisitedByBuilder)  result.Add(Maze[slot.X - 1, slot.Y]);
+            if (slot.X + 1 < Maze.GetLength(0) && !Maze[slot.X + 1, slot.Y].VisitedByBuilder)  result.Add(Maze[slot.X + 1, slot.Y]);
+            if (slot.Y - 1 >= 0 && !Maze[slot.X, slot.Y - 1].VisitedByBuilder)  result.Add(Maze[slot.X, slot.Y - 1]);
+            if (slot.Y + 1 < Maze.GetLength(1) && !Maze[slot.X, slot.Y + 1].VisitedByBuilder)  result.Add(Maze[slot.X, slot.Y + 1]);
 
             return result;
         }

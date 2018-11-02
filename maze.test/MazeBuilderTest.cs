@@ -54,8 +54,8 @@ namespace maze.test
         public void ShouldIgnoreVisitedSlots()
         {
             MazeBuilder builder = new MazeBuilder(3, 3);
-            builder.Maze[2, 0].Visited = true;
-            builder.Maze[2, 2].Visited = true;
+            builder.Maze[2, 0].VisitedByBuilder = true;
+            builder.Maze[2, 2].VisitedByBuilder = true;
 
             List<MazeSlot> neighbor = builder.GetNeighbor(builder.Maze[2, 1]);
 
