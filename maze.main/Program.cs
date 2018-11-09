@@ -36,7 +36,8 @@ namespace MazeBuilderGame
                 if (showSolution)
                     SolveMaze(maze);
 
-                MazeConsoleDrawer.DrawMaze(maze);
+                MazeConsoleDrawerSingleSide drawer = new MazeConsoleDrawerSingleSide(20, 10);
+                drawer.DrawMaze(maze);
                 Console.Write("Gerar outro labirinto [{0},{1},{2}] ('q' para sair): ", x, y, showSolution);
                 input = Console.ReadLine();
             }
